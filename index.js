@@ -4,6 +4,17 @@ const path = require("path");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
+const userRoute = require("./routes/users");
+const bodyParser = require("body-parser");
+
+
+app.use(express.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use('/api/user',userRoute);
+
+
+
+
 const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
