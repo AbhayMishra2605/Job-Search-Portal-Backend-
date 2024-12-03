@@ -24,12 +24,12 @@ const jobSchema= new mongoose.Schema({
         required: true,
         enum: ["full-time", "part-time", "contract", "internship", "freelance"],
     },
-    offceType:{
+    officeType:{
         type:String,
         required:true,
         enum:["Remote","Office"]
     },
-    loccation:{
+    location:{
         type:String,
         required:true
     },

@@ -39,7 +39,18 @@ router.delete('/:id',authMiddleware,async(req,res)=>{
 })
 
 router.post('/',authMiddleware,async(req,res)=>{
-    const {companyName,addLogoUrl,jobPosition,salary,jobType,jobDescription,aboutCompany,skillRequired,information,user}=req.body;
+    const {companyName,
+        addLogoUrl,
+        jobPosition,
+        salary,
+        jobType,
+        officeType,
+        location,
+        jobDescription,
+        aboutCompany,
+        skillRequired,
+        information,
+        user}=req.body;
     try {
         const user = req.user;
         const job = await Job.create({
@@ -48,6 +59,8 @@ router.post('/',authMiddleware,async(req,res)=>{
             jobPosition,
             salary,
             jobType,
+            officeType,
+            location,
             jobDescription,
             aboutCompany,
             skillRequired,
@@ -67,7 +80,18 @@ router.post('/',authMiddleware,async(req,res)=>{
 
 router.put('/:id',authMiddleware,async(req,res)=>{
     const {id}= req.params;
-    const {companyName,addLogoUrl,jobPosition,salary,jobType,jobDescription,aboutCompany,skillRequired,information,user}=req.body;
+    const {companyName,
+        addLogoUrl,
+        jobPosition,
+        salary,
+        jobType,
+        officeType,
+        location,
+        jobDescription,
+        aboutCompany,
+        skillRequired,
+        information,user}=req.body;
+    
     const job = await Job.findById(id);
     if(!job){
         return res.status(404).json({message:'Job not found'})
@@ -77,10 +101,21 @@ router.put('/:id',authMiddleware,async(req,res)=>{
     }
     try{
         await Job.findByIdAndUpdate(id,{
-            companyName,addLogoUrl,jobPosition,salary,jobType,jobDescription,aboutCompany,skillRequired,information
+            companyName,
+        addLogoUrl,
+        jobPosition,
+        salary,
+        jobType,
+        officeType,
+        location,
+        jobDescription,
+        aboutCompany,
+        skillRequired,
+        information,
         })
         res.status(200).json({message:'Job updated successfully'})
     }catch(e){
+        
         res.status(404).json({message:'Error in updating job'})
         
     }
