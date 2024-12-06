@@ -8,11 +8,49 @@ dotenv.config();
 
 
 
-router.get('/',async(req,res)=>{
-    const jobs=await Job.find()
-    res.status(200).json({job:jobs});
+router.get('/', async (req, res) => {
+    const { limit, offset, companyName, salary, position, jobtype } = req.query;
 
-})
+    try {
+     
+
+        let filter = {};
+        if (companyName || salary || position || jobtype) {
+            filter.$or = [];
+            if (companyName) {
+                
+                filter.$or.push({ companyName: { $regex: companyName, $options: "i" } });
+            }
+            if (salary) {
+                
+                const salaryValue = parseInt(salary, 10);
+                if (!isNaN(salaryValue)) {
+                    filter.$or.push({ salary: { $lte: salaryValue } }); 
+                }
+            }
+            if (position) {
+                
+                
+                filter.$or.push({ jobPosition: { $regex: position, $options: "i" } });
+            }
+            if (jobtype) {
+                filter.$or.push({ jobType: { $regex: jobtype, $options: "i" } }); 
+            }
+        }
+
+       
+        const query = Job.find(filter).select('-__v');
+        if (offset) query.skip(parseInt(offset));
+        if (limit) query.limit(parseInt(limit));
+
+        const jobs = await query.exec();
+        res.status(200).json(jobs);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 router.get('/:id',async(req,res)=>{
     const job=await Job.findById(req.params.id)
