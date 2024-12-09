@@ -7,6 +7,7 @@ dotenv.config();
 const userRoute = require("./routes/users");
 const bodyParser = require("body-parser");
 const jobRoute = require('./routes/job');
+const cors=require('cors');
 
 app.use(express.urlencoded({ extended: true}));
 app.use(bodyParser.json());
