@@ -9,6 +9,8 @@ const bodyParser = require("body-parser");
 const jobRoute = require('./routes/job');
 const cors=require('cors');
 
+
+app.use(cors());
 app.use(express.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 app.use('/api/user',userRoute);
